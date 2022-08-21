@@ -18,6 +18,6 @@ public class Sensor {
     private int id;
     @NotEmpty
     @Size(min = 3, max = 30, message = "Name should be between 2 and 30 characters!")
-    @Column(name = "id")
+    @Column(name = "name")
     private String name;
 }
