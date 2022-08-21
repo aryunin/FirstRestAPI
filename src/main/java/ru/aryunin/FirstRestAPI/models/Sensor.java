@@ -16,7 +16,7 @@ public class Sensor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @NotEmpty
+    @NotEmpty(message = "Name should not be empty!")
     @Size(min = 3, max = 30, message = "Name should be between 2 and 30 characters!")
     @Column(name = "name")
     private String name;
