@@ -1,15 +1,18 @@
 package ru.aryunin.FirstRestAPI.controllers;
 
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import ru.aryunin.FirstRestAPI.DTO.SensorDTO;
 import ru.aryunin.FirstRestAPI.models.Sensor;
 import ru.aryunin.FirstRestAPI.services.SensorsService;
 import ru.aryunin.FirstRestAPI.util.SensorAlreadyExistsException;
 import ru.aryunin.FirstRestAPI.util.SensorErrorResponse;
+import ru.aryunin.FirstRestAPI.util.SensorValidator;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -19,9 +22,14 @@ import java.util.List;
 @AllArgsConstructor
 public class SensorsController {
     private final SensorsService sensorsService;
+    private final ModelMapper modelMapper;
+    private final SensorValidator sensorValidator;
 
     @PostMapping("/register")
-    public ResponseEntity<HttpStatus> register(@RequestBody @Valid Sensor sensor, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> register(@RequestBody @Valid SensorDTO sensorDTO, BindingResult bindingResult) {
+        Sensor sensor = modelMapper.map(sensorDTO, Sensor.class);
+
+        sensorValidator.validate(sensor, bindingResult);
         if(bindingResult.hasErrors()) {
             StringBuilder errorMsg = new StringBuilder();
 
@@ -29,8 +37,8 @@ public class SensorsController {
             fieldErrors.forEach(value ->
                 errorMsg.append(value.getField())
                         .append(" - ")
-                        .append(value.getRejectedValue())
-                        .append(";\n")
+                        .append(value.getDefaultMessage())
+                        .append("; ")
             );
 
             throw new SensorAlreadyExistsException(errorMsg.toString());
