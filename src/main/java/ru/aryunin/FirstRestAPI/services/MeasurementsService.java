@@ -36,4 +36,8 @@ public class MeasurementsService {
     public List<Measurement> getAll() {
         return measurementRepository.findAllJoin();
     }
+
+    public List<Measurement> getRaining(Boolean raining) {
+        return measurementRepository.findByRaining(raining);
+    }
 }

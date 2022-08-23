@@ -11,4 +11,6 @@ import java.util.List;
 public interface MeasurementRepository extends JpaRepository<Measurement, Integer> {
     @Query(value = "SELECT m FROM Measurement m LEFT JOIN FETCH m.sensor s")
     List<Measurement> findAllJoin();
+    @Query(value = "SELECT m FROM Measurement m LEFT JOIN FETCH m.sensor s WHERE m.raining=?1")
+    List<Measurement> findByRaining(Boolean raining);
 }

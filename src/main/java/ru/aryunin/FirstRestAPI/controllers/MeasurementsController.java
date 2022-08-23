@@ -59,6 +59,12 @@ public class MeasurementsController {
         return measurements;
     }
 
+    @GetMapping("/rainyDaysCount")
+    @ResponseBody
+    public Integer getRainyDaysCount() {
+        return measurementsService.getRaining(true).size();
+    }
+
     private MeasurementDTO convertToDTO(Measurement m) {
         SensorDTO sensorDTO = modelMapper.map(m.getSensor(), SensorDTO.class);
         MeasurementDTO measurementDTO = modelMapper.map(m, MeasurementDTO.class);
