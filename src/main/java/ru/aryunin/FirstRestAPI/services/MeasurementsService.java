@@ -8,6 +8,7 @@ import ru.aryunin.FirstRestAPI.repositories.MeasurementRepository;
 import ru.aryunin.FirstRestAPI.util.SensorNotFoundException;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,5 +28,9 @@ public class MeasurementsService {
     public void save(Measurement measurement) {
         enrichMeasurement(measurement);
         measurementRepository.save(measurement);
+    }
+
+    public List<Measurement> getAll() {
+        return measurementRepository.findAllJoin();
     }
 }

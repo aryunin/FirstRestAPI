@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import ru.aryunin.FirstRestAPI.DTO.MeasurementDTO;
+import ru.aryunin.FirstRestAPI.DTO.SensorDTO;
 import ru.aryunin.FirstRestAPI.models.Measurement;
 import ru.aryunin.FirstRestAPI.services.MeasurementsService;
 import ru.aryunin.FirstRestAPI.util.ErrorResponse;
@@ -16,6 +17,7 @@ import ru.aryunin.FirstRestAPI.util.MeasurementNotAddedException;
 import ru.aryunin.FirstRestAPI.util.SensorNotFoundException;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -46,6 +48,22 @@ public class MeasurementsController {
 
         measurementsService.save(measurement);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping
+    @ResponseBody
+    public List<MeasurementDTO> getAll() {
+        List<MeasurementDTO> measurements = new ArrayList<>();
+        for(Measurement m : measurementsService.getAll())
+            measurements.add(convertToDTO(m));
+        return measurements;
+    }
+
+    private MeasurementDTO convertToDTO(Measurement m) {
+        SensorDTO sensorDTO = modelMapper.map(m.getSensor(), SensorDTO.class);
+        MeasurementDTO measurementDTO = modelMapper.map(m, MeasurementDTO.class);
+        measurementDTO.setSensor(sensorDTO);
+        return measurementDTO;
     }
 
     @ExceptionHandler
