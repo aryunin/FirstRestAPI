@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.aryunin.FirstRestAPI.DTO.SensorDTO;
 import ru.aryunin.FirstRestAPI.models.Sensor;
 import ru.aryunin.FirstRestAPI.services.SensorsService;
-import ru.aryunin.FirstRestAPI.util.SensorAlreadyExistsException;
+import ru.aryunin.FirstRestAPI.util.SensorNotRegisteredException;
 import ru.aryunin.FirstRestAPI.util.SensorErrorResponse;
 import ru.aryunin.FirstRestAPI.util.SensorValidator;
 
@@ -41,7 +41,7 @@ public class SensorsController {
                         .append("; ")
             );
 
-            throw new SensorAlreadyExistsException(errorMsg.toString());
+            throw new SensorNotRegisteredException(errorMsg.toString());
         }
 
         sensorsService.save(sensor);
@@ -49,7 +49,7 @@ public class SensorsController {
     }
 
     @ExceptionHandler
-    private ResponseEntity<SensorErrorResponse> handleException(SensorAlreadyExistsException e) {
+    private ResponseEntity<SensorErrorResponse> handleException(SensorNotRegisteredException e) {
         SensorErrorResponse response = new SensorErrorResponse(e.getMessage(), System.currentTimeMillis());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
