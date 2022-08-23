@@ -19,7 +19,7 @@ public class MeasurementsService {
     private void enrichMeasurement(Measurement measurement) {
         Optional<Sensor> sensor = sensorsService.findByName(measurement.getSensor().getName());
         if(sensor.isEmpty())
-            throw new SensorNotFoundException("A sensor with same name does not exist!");
+            throw new SensorNotFoundException();
         else measurement.setSensor(sensor.get());
         measurement.setWhen(new Date());
     }

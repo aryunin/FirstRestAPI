@@ -56,7 +56,9 @@ public class MeasurementsController {
 
     @ExceptionHandler
     private ResponseEntity<ErrorResponse> handleException(SensorNotFoundException e) {
-        ErrorResponse response = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
+        ErrorResponse response = new ErrorResponse(
+                "A sensor with same name does not exist!",
+                System.currentTimeMillis());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }
