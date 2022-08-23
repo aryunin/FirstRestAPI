@@ -15,5 +15,5 @@ public class MeasurementDTO {
     @Max(value = 100, message = "The value should be less than 100!")
     private float value;
     private Boolean raining;
-    private SensorDTO sensorDTO;
+    private SensorDTO sensor;
 }
