@@ -26,7 +26,7 @@ public class Measurement {
     @Column(name = "raining")
     private Boolean raining;
     @Temporal(value = TemporalType.TIMESTAMP)
-    @Column(name = "when")
+    @Column(name = "\"when\"")
     private Date when;
     @ManyToOne
     @JoinColumn(name = "sensor_id", referencedColumnName = "id")
