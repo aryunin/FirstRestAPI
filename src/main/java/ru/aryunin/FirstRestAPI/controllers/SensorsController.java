@@ -11,7 +11,7 @@ import ru.aryunin.FirstRestAPI.DTO.SensorDTO;
 import ru.aryunin.FirstRestAPI.models.Sensor;
 import ru.aryunin.FirstRestAPI.services.SensorsService;
 import ru.aryunin.FirstRestAPI.util.SensorNotRegisteredException;
-import ru.aryunin.FirstRestAPI.util.SensorErrorResponse;
+import ru.aryunin.FirstRestAPI.util.ErrorResponse;
 import ru.aryunin.FirstRestAPI.util.SensorValidator;
 
 import javax.validation.Valid;
@@ -49,8 +49,8 @@ public class SensorsController {
     }
 
     @ExceptionHandler
-    private ResponseEntity<SensorErrorResponse> handleException(SensorNotRegisteredException e) {
-        SensorErrorResponse response = new SensorErrorResponse(e.getMessage(), System.currentTimeMillis());
+    private ResponseEntity<ErrorResponse> handleException(SensorNotRegisteredException e) {
+        ErrorResponse response = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }
